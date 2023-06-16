@@ -1,13 +1,11 @@
 package com.example.aruna.webflux.controller;
 
+import com.example.aruna.webflux.dto.MultiplyRequest;
 import com.example.aruna.webflux.dto.Response;
 import com.example.aruna.webflux.service.ReactiveMathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,5 +29,12 @@ public class ReactiveMathController {
     public Flux<Response> getMultiTable (@PathVariable int value) {
         Flux<Response> responseFlux = reactiveMathService.generateMultiTable(value);
         return  responseFlux;
+    }
+
+    @PostMapping(value = "multiply")
+    public Mono<Response> multiply (@RequestBody Mono<MultiplyRequest> multiplyRequest) {
+        Mono<Response> responseMono = reactiveMathService.multiply(multiplyRequest);
+        return responseMono;
+
     }
 }
