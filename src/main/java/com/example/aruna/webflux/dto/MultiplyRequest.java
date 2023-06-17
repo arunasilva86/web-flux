@@ -1,8 +1,9 @@
 package com.example.aruna.webflux.dto;
 
 import lombok.Data;
+import lombok.ToString;
 
-@Data
+@Data @ToString
 public class MultiplyRequest {
 
     private int firstNumber;
