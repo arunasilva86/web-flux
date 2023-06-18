@@ -25,6 +25,13 @@ public class ReactiveMathController {
         return responseMono;
     }
 
+    @GetMapping("square-validate/{value}") // Mono example
+    public Mono<Response> getSquareWithValidate(@PathVariable int value) {
+
+        Mono<Response> responseMono = reactiveMathService.calculateSquare(value);
+        return responseMono;
+    }
+
 
     @GetMapping(value = "multi-table/{value}", produces = MediaType.TEXT_EVENT_STREAM_VALUE) // Flux example
     public Flux<Response> getMultiTable(@PathVariable int value) {
@@ -32,13 +39,14 @@ public class ReactiveMathController {
         return responseFlux;
     }
 
-    // validate the input parameters and use controller advice to handle error
+    // validate the input parameters and use Controller-Advice to handle error
     @PostMapping(value = "multiply")
     public Mono<Response> multiply(@RequestBody Mono<MultiplyRequest> multiplyRequestMono) {
 
         Mono<Response> responseMono = multiplyRequestMono.handle((multiplyRequestDto, synchronousSink) -> {
                     if (multiplyRequestDto.getFirstNumber() < 0 || multiplyRequestDto.getSecondNumber() < 0) {
-                        synchronousSink.error(new InvalidInputException(multiplyRequestDto)); // Have configured a controller advice to handle InvalidInputException
+                        // Have configured a controller advice to handle InvalidInputException
+                        synchronousSink.error(new InvalidInputException(multiplyRequestDto));
                     } else {
                         synchronousSink.next(multiplyRequestDto);
                     }
