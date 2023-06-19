@@ -1,8 +1,7 @@
 package com.example.aruna.webflux.service;
 
-import com.example.aruna.webflux.dto.MultiplyRequest;
+import com.example.aruna.webflux.dto.MultiplyRequestDto;
 import com.example.aruna.webflux.dto.Response;
-import com.sun.source.tree.ReturnTree;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,13 +27,13 @@ public class ReactiveMathService {
                 .map(Response::new);
     }
 
-    public Mono<Response> multiply (Mono<MultiplyRequest> multiplyRequest) {
+    public Mono<Response> multiply (Mono<MultiplyRequestDto> multiplyRequest) {
 
         return multiplyRequest.map(request -> request.getFirstNumber() * request.getSecondNumber())
                 .map(Response::new);
             }
 
-    public Integer multiplyValue (MultiplyRequest multiplyRequest) {
+    public Integer multiplyValue (MultiplyRequestDto multiplyRequest) {
 
         return  multiplyRequest.getFirstNumber() * multiplyRequest.getSecondNumber();
 

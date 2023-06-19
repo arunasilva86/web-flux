@@ -1,24 +1,24 @@
 package com.example.aruna.webflux.exception;
 
-import com.example.aruna.webflux.dto.MultiplyRequest;
-
 public class InvalidInputException extends RuntimeException {
 
-    private static String MESSAGE  = "values must be greater than zero";
+    private final String message = "values must be greater than zero";
     public static final int errorCode = 100;
-    private final MultiplyRequest input;
+    private final Object input;
 
-    public InvalidInputException(MultiplyRequest input) {
-        super(MESSAGE);
+    public InvalidInputException(Object input, String message) {
+        super(message);
         this.input = input;
     }
 
-    public static String getMESSAGE() {
-        return MESSAGE;
+    public String getMessage() {
+        return message;
     }
 
-    public MultiplyRequest getInput() {
+    public Object getInput() {
         return input;
     }
+
+
 
 }

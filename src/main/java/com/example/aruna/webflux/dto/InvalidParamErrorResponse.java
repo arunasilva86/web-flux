@@ -6,5 +6,5 @@ import lombok.Data;
 public class InvalidParamErrorResponse {
     private int errorCode;
     private String message;
-    private MultiplyRequest multiplyRequest;
+    private Object body;
 }

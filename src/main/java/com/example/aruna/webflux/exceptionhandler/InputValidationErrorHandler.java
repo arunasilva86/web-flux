@@ -15,7 +15,7 @@ public class InputValidationErrorHandler {
         InvalidParamErrorResponse response = new InvalidParamErrorResponse();
         response.setErrorCode(InvalidInputException.errorCode);
         response.setMessage(exception.getMessage());
-        response.setMultiplyRequest(exception.getInput());
+        response.setBody(exception.getInput());
 
         return ResponseEntity.badRequest().body(response);
     }

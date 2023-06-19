@@ -1,6 +1,6 @@
 package com.example.aruna.webflux.controller;
 
-import com.example.aruna.webflux.dto.MultiplyRequest;
+import com.example.aruna.webflux.dto.MultiplyRequestDto;
 import com.example.aruna.webflux.dto.Response;
 import com.example.aruna.webflux.exception.InvalidInputException;
 import com.example.aruna.webflux.service.ReactiveMathService;
@@ -9,8 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.awt.*;
 
 @RestController
 @RequestMapping(path = "/reactive-math")
@@ -41,17 +39,17 @@ public class ReactiveMathController {
 
     // validate the input parameters and use Controller-Advice to handle error
     @PostMapping(value = "multiply")
-    public Mono<Response> multiply(@RequestBody Mono<MultiplyRequest> multiplyRequestMono) {
+    public Mono<Response> multiply(@RequestBody Mono<MultiplyRequestDto> multiplyRequestMono) {
 
         Mono<Response> responseMono = multiplyRequestMono.handle((multiplyRequestDto, synchronousSink) -> {
                     if (multiplyRequestDto.getFirstNumber() < 0 || multiplyRequestDto.getSecondNumber() < 0) {
                         // Have configured a controller advice to handle InvalidInputException
-                        synchronousSink.error(new InvalidInputException(multiplyRequestDto));
+                        synchronousSink.error(new InvalidInputException(multiplyRequestDto, "firstNumber and Second number both should be > 0"));
                     } else {
                         synchronousSink.next(multiplyRequestDto);
                     }
                 })
-                .cast(MultiplyRequest.class)
+                .cast(MultiplyRequestDto.class)
                 .map(reactiveMathService::multiplyValue)
                 .map(Response::new);
 
